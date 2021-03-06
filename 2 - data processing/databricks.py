@@ -1,5 +1,5 @@
 storageAccountName = 'capstonestorageyn'
-storageAccountAccessKey = '2Z3nXZ5UxaHw+13gJ2R5itqUCe36ygsW5L6AyO/h9Fa4Te+4h33GTQYNM1bkdPGAn1aBQ1wdOFNmaIpGyF2gzg=='
+storageAccountAccessKey = '<access-key>'
 blobContainerName = 'historical'
 
 

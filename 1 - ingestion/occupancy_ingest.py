@@ -87,7 +87,7 @@ def get_parkingOccupancy_file_code(year):
 
     return code
 
-# This function returns a concatenated string: base_url+year+"-"+formatted_month+".csv"
+# This function returns a concatenated string: base_url+year.csv"
 def _get_parkingOcc_url_by_year(code):
     """
     This function gets the Parking Occupancy URL as per the code
