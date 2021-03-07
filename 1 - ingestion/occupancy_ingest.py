@@ -18,7 +18,7 @@ logging.basicConfig(format='%(asctime)s :: %(levelname)s :: %(funcName)s :: %(li
 :: %(message)s', level = logging.INFO)
 
 config = configparser.ConfigParser()
-config.read('config.cfg')
+config.read('..\config.cfg')
 
 DEBUG = False
 chromeDriver_Path="chromedriver.exe"

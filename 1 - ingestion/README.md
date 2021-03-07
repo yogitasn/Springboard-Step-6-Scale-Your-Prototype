@@ -1,8 +1,8 @@
-Ingestion
+#### Ingestion
 The Seattle Parking Occupancy Dataset are csv files provided as Year to Date data from 2012 to present
 
-Ingestion_prerequistes.docx
-[Details] Instructions for setting up the Azure environment before starting the ingestion process
+Pre-requistes: 
+[Details](setup.md) Instructions for setting up the Azure environment before starting the ingestion process
 
 occupancy_ingest.py
 [Details] Python script for downloading the files from Seattle Open Data to Azure file share
