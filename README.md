@@ -46,7 +46,7 @@ python occupancy_ingest.py
 
 ```
 
-[^1]: Refer the Readme under the data ingestion folder for detailed steps.
+Refer the Readme under the data ingestion folder for detailed steps.
 
 * The driver will call the transformation code for performing pyspark transformations on CSV files for the date range:'2018-2020' and '2012-2017' separately due to varying/missing column data formats and Blockface data
 
@@ -55,4 +55,4 @@ python occupancy_etl.py
 
 ```
 
-[^1]: Refer the Readme under the data processing folder for detailed steps and screenshots
+Refer the Readme under the data processing folder for detailed steps and screenshots
