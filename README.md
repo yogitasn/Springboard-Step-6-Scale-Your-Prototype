@@ -29,7 +29,7 @@ The Project is built with the following technologies:
 * Azure Storage-Containers/File Share: To store the big data
 * Azure Virtual Machine: To execute the ingestion script to download the data to file share
 * Azure Data Factory: To execute a pipeline to copy data from file share to Azure containers
-* Databricks-connect: Allow the user to step through and debug Spark code in the local environment and execute it on remote databricks cluster
+* Databricks-connect: Allow the user to step through and debug Spark code in the local environment and execute it on remote Azure Databricks cluster
     * [Reference](https://docs.databricks.com/dev-tools/databricks-connect.html)
        * Python 3.7.5 (which matches the remote cluster python version)
     
@@ -46,9 +46,13 @@ python occupancy_ingest.py
 
 ```
 
-* The driver will call the transformation code for performing pyspark transformations on CSV files for the date range:2018-2020 and '2012-2017' separately due to varying/missing column data formats and Blockface data
+    * Refer the Readme under the data ingestion folder for detailed steps.
+
+* The driver will call the transformation code for performing pyspark transformations on CSV files for the date range:'2018-2020' and '2012-2017' separately due to varying/missing column data formats and Blockface data
 
 ```
 python occupancy_etl.py
 
 ```
+
+    * Refer the Readme under the data processing folder for detailed steps and screenshots
