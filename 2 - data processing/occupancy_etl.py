@@ -21,7 +21,7 @@ def main():
     """
     This method performs below task:
    
-    Transform data present in working zone and save the transformed data to Processed Zone
+    Transform paid parking and blockface data present in working zone
     
     """
     logging.debug("\n\nSetting up Spark Session...")

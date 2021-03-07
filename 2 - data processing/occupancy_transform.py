@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType,StructField, StringType, IntegerType ,LongType,DecimalType
 from pyspark.sql.types import ArrayType, DoubleType, BooleanType
 from pyspark.sql import functions as F
-from pyspark.sql.functions import array_contains,date_format,regexp_replace
+from pyspark.sql.functions import col,array_contains,date_format,regexp_replace
 import logging
 import configparser
 from pathlib import Path
@@ -22,9 +22,8 @@ config.read('..\config.cfg')
 
 class ParkingOccupancyLoadTransform:
     """
-    This class performs transformation and load operations on the dataset.
-    1. Transform timestamp format, clean text part, remove extra spaces etc
-    2. Load the transformed dataset into postgres table
+    This class performs transformation operations on the dataset.
+    Transform timestamp format, clean text part, remove extra spaces etc
     """        
     def __init__(self,spark):
         self.spark=spark
@@ -32,6 +31,7 @@ class ParkingOccupancyLoadTransform:
         self._save_path = config.get('BUCKET', 'PROCESSED_ZONE')
         
 
+    # Tranforms the datasets from 2018 to 2020 as the data has same pattern
     def transform_load_parking_hist_2018_2020_occupancy(self):
         logging.debug("Inside transform parking occupancy dataset module")
         
@@ -101,7 +101,7 @@ class ParkingOccupancyLoadTransform:
         date_dim.show(3, truncate=False)
 
 
-
+    # Tranforms the datasets from 2012 to 2017 as the column data has same pattern
     def transform_load_parking_hist_2012_2017_occupancy(self):
         logging.debug("Inside transform parking occupancy dataset module")
         
@@ -120,7 +120,8 @@ class ParkingOccupancyLoadTransform:
                 .add("Location",StringType(),True)
 
 
-                
+        # 2012 to 2017 data doesn't have the Latitude and Longitude values similar to the latest year's data i.e. > 2018 
+        # In order to propagate the Lat and Long values, lookup table is created using 2020 data and use broadcast/join to 2012_2017 data
         occ_df_2012_2017 = self.spark.read.format("csv") \
                 .option("header", True) \
                 .schema(schema) \
@@ -148,7 +149,7 @@ class ParkingOccupancyLoadTransform:
                 occ_df["Station_Id"].cast(IntegerType()))
 
 
-# Creating the station lookup table
+        # Creating the station lookup table using 2020 paid parking data
         occ_df_2020 = self.spark.read.format("csv") \
                 .option("header", True) \
                 .schema(schema) \
@@ -172,13 +173,15 @@ class ParkingOccupancyLoadTransform:
         occ_df_2020=occ_df_2020.drop('Location')
 
         
-
+        # get the distinct Station_Id, Longitude and Latitude
         station_id_lookup=occ_df_2020.select('Station_Id','Longitude','Latitude').distinct()
 
         station_id_lookup.persist()
 
+        # Broadcast the smaller dataframe as it contains few 1000 rows
         F.broadcast(station_id_lookup)
 
+        # Use join to propagate the Latitude and Longitude values to the data from 2012 to 2017
         occ_df_2012_2017 = occ_df_2012_2017\
                         .join(station_id_lookup, ['Station_Id'], how='left_outer')\
                         .select(occ_df_2012_2017.OccupancyDateTime,occ_df_2012_2017.Station_Id,\
