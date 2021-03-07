@@ -20,6 +20,10 @@ UDF to get the data records in HH:MM:SS format.
 
 
 #### Set up Databricks dev env at local windows
+Provision a Databricks cluster
+
+![Alt text](Screenshot/Databricks_cluster.PNG?raw=true "DatabricksCluster")
+
 ```
 Follow the instructions in the below URL and setip databricks-connect that enables pyspark code on local machine to be executed on Databricks cluster
 * Reference: https://docs.databricks.com/dev-tools/databricks-connect.html
@@ -31,7 +35,6 @@ Follow the instructions in the below URL and setip databricks-connect that enabl
     * The trick is one cannot mess up the delicate databricks-connect and pyspark versions
     * The Python version on local and databricks cluster should match i.e. Python 3.7.5
 
-![Alt text](Screenshot/Databricks_cluster.PNG?raw=true "DatabricksCluster")
 
 * Test with this example:
 from pyspark.sql import SparkSession
