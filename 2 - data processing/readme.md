@@ -1,30 +1,24 @@
+# Data Processing
 
-#### Data Processing
+These scripts are used to extract and aggregate contract data from the federal spending PostgreSQL database. The spending data are joined to legislator data, which is extracted from a JSON file. Finally, the aggregation tables are written to CockroachDB. 
 
-#### Set up Databricks dev env at local windows
-```
-Follow the instructions in the below URL and setip databricks-connect that enables pyspark code on local machine to be executed on Databricks cluster
-* Reference: https://docs.databricks.com/dev-tools/databricks-connect.html
-    * Your Spark job is planned in local but executed on the remote cluster
-    * Allow the user to step through and debug Spark code in the local environment
+All of the above are done in PySpark. 
 
-* databricks-connect==7.3.5 (Matching with the cluster type of 7.3.1 LTS)
-* Configuration
-    * The trick is one cannot mess up the delicate databricks-connect and pyspark versions
-    * The Python version on local and databricks cluster should match i.e. Python 3.7.5
 
-* Test with this example:
-from pyspark.sql import SparkSession
-spark = SparkSession.builder.appName("test").getOrCreate()
-print(spark.range(100).count())  # it executes on the cluster, where you can see the record
+#### `legislators.py`
+[[Details](https://github.com/sanoke/fedspend/wiki/Data-pipeline:-Ingesting-data#historical-legislator-data)] PySpark script for ingesting [legislator information](https://github.com/unitedstates/congress-legislators); loaded as a module within federal spending processing.
 
-```
+#### `contracts.py`, `grants.py` 
+PySpark script for joining federal spending *contract* (payment for goods or service) and *grant* (provision of money to serve a public purpose) data to legislator data, and writing to CockroachDB. No aggregation done in these script, to allow a data scientist some analytic flexibility. 
 
-#### Execute the ETL script and trigger the transformation on the datasets
+#### `contracts-analytic.py` 
+PySpark script for joining federal spending contract data to legislator data, and calculating aggregations. This script generates the tables that support the FedSpend UI. 
 
-```
-python occupancy_etl.py
+#### `USAspendingGlossary.xlsx`
+Reference document from [USASpending.gov](http://www.usaspending.gov) to understand the terminology used within the federal spending dataset. 
 
-```
+####  `version_control.md`
+Some notes on what version control would look like
 
-### Spark Jobs 
+####  `airflow.md`
+Some notes on what an automated workflow implementation would look like

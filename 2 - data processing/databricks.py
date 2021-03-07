@@ -1,6 +1,6 @@
-storageAccountName = 'capstonestorageyn'
-storageAccountAccessKey = '<access-key>'
-blobContainerName = 'historical'
+storageAccountName = '<storage_account>'
+storageAccountAccessKey = '<storage_key>'
+blobContainerName = '<blob_container>'
 
 
 if not any(mount.mountPoint == '/mnt/FileStore/MountFolder/' for mount in dbutils.fs.mounts()):
